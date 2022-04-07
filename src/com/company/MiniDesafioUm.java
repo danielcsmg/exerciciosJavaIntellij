@@ -8,12 +8,19 @@ public class MiniDesafioUm {
 
 
         while (true) {
-            System.out.println("Digite o primeiro valor:");
-            double numDigitado1 = scanner.nextDouble();
+            System.out.println("Digite a quantidade de números que deseja calcular:");
+            int qtd = scanner.nextInt();
 
+            if(qtd <= 1){
+                System.out.println("Sem sacanagem, digita pelo menos dois num aí, pô...");
+                continue;
+            }
+            double[] vetorNum = new double[qtd];
+            for(int i = 0; i < vetorNum.length;i++) {
+                System.out.println("Digite o "+ (i+1) +"º valor:");
+                vetorNum[i] = scanner.nextDouble();
+            }
 
-            System.out.println("Digite o segundo valor:");
-            double numDigitado2 = scanner.nextDouble();
 
             scanner.nextLine();
 
@@ -28,29 +35,40 @@ public class MiniDesafioUm {
             if (operadorDigitado.equals("sair") || operadorDigitado.equals("s")){
                 System.exit(0);
             }else {
-                double resultadoDaOperacao = calculadora(numDigitado1, numDigitado2, operadorDigitado);
+                double resultadoDaOperacao = calculadora(vetorNum, operadorDigitado);
 
-                System.out.println("Resultado de " + numDigitado1 + " " + operadorDigitado + " " + numDigitado2 + " = " + resultadoDaOperacao);
+                System.out.println("Resultado com a operação " + operadorDigitado + " é: " + resultadoDaOperacao);
             }
 
         }
     }
 
 
-    public static double calculadora(double num1, double num2, String operador){
-        double resultado;
+    public static double calculadora(double[] vetor, String operador){
+        double resultado = 0;
         if(operador.equals("+")){
-            resultado = num1 + num2;
+            for (int i = 0; i < vetor.length;i++){
+                resultado += vetor[i];
+            }
         }else if (operador.equals("-")){
-            resultado = num1 - num2;
+            resultado = vetor[0];
+            for (int i = 1; i < vetor.length;i++){
+                resultado -= vetor[i];
+            }
         }else if (operador.equals("*")){
-            resultado = num1 * num2;
+            resultado = 1;
+            for (int i = 0; i < vetor.length;i++){
+                resultado *= vetor[i];
+            }
         }else if (operador.equals("/")){
-            if(num2 != 0) {
-                resultado = num1 / num2;
-            }else {
-                resultado = 0;
-                System.out.println("Não é possível dividir por zero. O resultado retornou zero.");
+            resultado = vetor[0];
+            for (int i = 1; i < vetor.length;i++){
+                if(vetor[i] != 0) {
+                    resultado /= vetor[i];
+                }else {
+                    System.out.println("Ops... Uma divisão por zero detectada. Vamos te retornar zero. Rsrsrs...");
+                    resultado = 0;
+                }
             }
         }else{
             System.out.println("Opção de operação inválida. O resultado retornou zero.");
